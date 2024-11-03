@@ -11,6 +11,9 @@
   cd server
   ```
   ```bash
+  pip install -r requirements.txt
+  ```
+  ```bash
   python app.py
   ```
 - Get the server local ip address e.g `https://192.23.34.23:5000` and replace it to `<your-server-url>`
