@@ -1,6 +1,5 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
-#include <SQLite.h>
 #include "DHT.h"
 
 // Dust Sensor settings
@@ -47,7 +46,6 @@ float MQ135_Sensor_val;
 float MQ135_SensVoltage;
 float ppm_MQ135;
 
-SQLite sqlite;
 void setup() 
 {
   Serial.begin(9600);
@@ -67,16 +65,6 @@ void setup()
 
   dht.begin();
   delay(3000);
-
-  // Initialize SQLite database
-  if (sqlite.begin("sensory_data.db")) {// Open or create the SQLite database file
-    Serial.println("SQLite initialized successfully.");
-  } else {
-    Serial.println("Failed to initialize SQLite.");
-  }
-
-  // Create a table for storing sensor data
-  sqlite.exec("CREATE TABLE IF NOT EXISTS sensor_data (id INTEGER PRIMARY KEY AUTOINCREMENT, humidity REAL, temperature REAL, heat_index REAL, sound_level REAL, mq2_ppm REAL, mq3_ppm REAL, mq135_ppm REAL, dust_density REAL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);");
 }
 
 void loop() 
@@ -297,24 +285,9 @@ void displayDustSensorReadings(float dustDensity) {
 
 // Function to send data to ESP32 via Serial2 in a comma-separated format
 void sendDataToESP32(float dustDensity) {
-  // Send data to ESP32 over Serial
-  Serial.println(String(h) + "," + String(t) + "," + String(hic) + "," + String(analogVal) + "," + String(ppm_MQ2) + "," + String(ppm_MQ3) + "," + String(ppm_MQ135) + "," + String(dustDensity));
-
-  // Store the data in the SQLite database
-  String insertQuery = "INSERT INTO sensor_data (humidity, temperature, heat_index, sound_level, mq2_ppm, mq3_ppm, mq135_ppm, dust_density) VALUES ("
-                        + String(h) + ", "
-                        + String(t) + ", "
-                        + String(hic) + ", "
-                        + String(analogVal) + ", "
-                        + String(ppm_MQ2) + ", "
-                        + String(ppm_MQ3) + ", "
-                        + String(ppm_MQ135) + ", "
-                        + String(dustDensity) + ");";
+  // Prepare the comma-separated data
+  String data = String(h) + "," + String(t) + "," + String(hic) + "," + String(analogVal) + "," + String(ppm_MQ2) + "," + String(ppm_MQ3) + "," + String(ppm_MQ135) + "," + String(dustDensity);
     
-  // Execute the insert query
-  if (sqlite.exec(insertQuery)) {
-    Serial.println("Data inserted successfully.");
-  } else {
-    Serial.println("Error inserting data.");
-  }
+  // Send data to ESP32 over Serial
+  Serial.println(data);
 }
