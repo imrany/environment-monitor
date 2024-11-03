@@ -18,14 +18,14 @@ cursor.execute('''
 CREATE TABLE IF NOT EXISTS sensor_data (
     id INT AUTO_INCREMENT PRIMARY KEY,
     timestamp DATETIME NOT NULL,
-    temperature FLOAT,
-    humidity FLOAT,
-    heat_index FLOAT,
-    sound_level INT,
-    mq2_ppm FLOAT,
-    mq3_ppm FLOAT,
-    mq135_ppm FLOAT,
-    dust_density FLOAT
+    temperature TEXT,
+    humidity TEXT,
+    heat_index TEXT,
+    noise TEXT,
+    CO2 TEXT,
+    methane TEXT,
+    SO2 TEXT,
+    dust TEXT
 )
 ''')
 db_connection.commit()
