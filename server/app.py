@@ -38,12 +38,12 @@ def receive_sensor_data():
 
     # Prepare SQL query
     query = '''
-    INSERT INTO sensor_data (timestamp, temperature, humidity, heat_index, sound_level, mq2_ppm, mq3_ppm, mq135_ppm, dust_density)
+    INSERT INTO sensor_data (timestamp, temperature, humidity, heat_index, noise, CO2, methane, SO2, dust)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     '''
     values = (
-        timestamp, data['temperature'], data['humidity'], data['heat_index'],
-        data['sound_level'], data['mq2_ppm'], data['mq3_ppm'], data['mq135_ppm'], data['dust_density']
+        timestamp, data['temperature'], data['humidity'], data['heatIndex'],
+        data['noise'], data['mq2_ppm'], data['mq3_ppm'], data['mq135_ppm'], data['dustDensityStr']
     )
 
     cursor.execute(query, values)
