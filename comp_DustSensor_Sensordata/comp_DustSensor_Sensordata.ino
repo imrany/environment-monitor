@@ -285,9 +285,18 @@ void displayDustSensorReadings(float dustDensity) {
 
 // Function to send data to ESP32 via Serial2 in a comma-separated format
 void sendDataToESP32(float dustDensity) {
-  // Prepare the comma-separated data
-  String data = String(h) + "," + String(t) + "," + String(hic) + "," + String(analogVal) + "," + String(ppm_MQ2) + "," + String(ppm_MQ3) + "," + String(ppm_MQ135) + "," + String(dustDensity);
+  String humidity = String(h);
+  String temperature = String(t);
+  String heatIndex = String(hic);
+  String noise = String(analogVal);
+  String mq2_ppm = String(ppm_MQ2);
+  String mq3_ppm= String(ppm_MQ3);
+  String mq135_ppm= String(ppm_MQ135);
+  String dustDensityStr =String(dustDensity);
     
+  // Prepare the comma-separated data
+  String data = humidity + "," + temperature + "," + heatIndex + "," + noise + "," + mq2_ppm + "," + mq3_ppm + "," + mq135_ppm + "," + dustDensityStr;
+
   // Send data to ESP32 over Serial
   Serial.println(data);
 }

@@ -2,69 +2,76 @@
 #include <HTTPClient.h>
 
 // WiFi credentials
-const char* ssid = "Your_SSID";
-const char* password = "Your_PASSWORD";
+const char* ssid = "your_wifi_ssid";
+const char* password = "your_wifi_password";
 
-// Server IP address and endpoint
-const char* serverUrl = "http://<your_server_ip>:5000/api/sensor_data";
+// Server endpoint
+const char* serverUrl = "http://<your-server-url>:5000/api/sensor_data";
 
 void setup() {
-  Serial.begin(115200);
-  WiFi.begin(ssid, password);
+  Serial.begin(9600);       // Serial to communicate with the Arduino
+  Serial2.begin(9600);      // Serial2 to communicate with Arduino
 
+  // Connect to WiFi
+  WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
+    delay(500);
     Serial.println("Connecting to WiFi...");
   }
-
-  Serial.println("Connected to WiFi");
+  Serial.println("Connected to WiFi.");
 }
 
 void loop() {
+  if (Serial2.available()) {
+    String data = Serial2.readStringUntil('\n');  // Read the comma-separated data from Arduino
+    Serial.println("Received data from Arduino:");
+    Serial.println(data);
+
+    // Parse and send data as JSON
+    if (sendDataToServer(parseCSVtoJSON(data))) {
+      Serial.println("Data sent successfully to server.");
+    } else {
+      Serial.println("Failed to send data to server.");
+    }
+  }
+  delay(3000);
+}
+
+// Function to parse CSV data to JSON
+String parseCSVtoJSON(String data) {
+  String keys[] = {"humidity", "temperature", "heatIndex", "noise", "mq2_ppm", "mq3_ppm", "mq135_ppm", "dustDensityStr"};
+  String json = "{";
+  int index = 0;
+  int keyCount = sizeof(keys) / sizeof(keys[0]);
+
+  while (data.length() > 0 && index < keyCount) {
+    int commaIndex = data.indexOf(',');
+    String value = (commaIndex == -1) ? data : data.substring(0, commaIndex);
+    json += "\"" + keys[index++] + "\":" + value;
+
+    if (commaIndex == -1) break;
+    data = data.substring(commaIndex + 1);
+    json += ",";
+  }
+  json += "}";
+
+  Serial.println("JSON data created:");
+  Serial.println(json);
+  return json;
+}
+
+// Function to send JSON data to the server
+bool sendDataToServer(String jsonData) {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     http.begin(serverUrl);
-    
-    // Check if serial data is available from the microcontroller
-    if (Serial.available()) {
-      String data = Serial.readStringUntil('\n');
+    http.addHeader("Content-Type", "application/json");
 
-      // Replace with actual sensor data
-      float temperature = 25.5;
-      float humidity = 60.3;
-      float heatIndex = 27.2;
-      int soundLevel = 300;
-      float mq2Ppm = 0.04;
-      float mq3Ppm = 0.05;
-      float mq135Ppm = 0.02;
-      float dustDensity = 0.1;
-      
-      // Create JSON payload
-      String payload = "{";
-      payload += "\"temperature\":" + String(temperature) + ",";
-      payload += "\"humidity\":" + String(humidity) + ",";
-      payload += "\"heat_index\":" + String(heatIndex) + ",";
-      payload += "\"sound_level\":" + String(soundLevel) + ",";
-      payload += "\"mq2_ppm\":" + String(mq2Ppm) + ",";
-      payload += "\"mq3_ppm\":" + String(mq3Ppm) + ",";
-      payload += "\"mq135_ppm\":" + String(mq135Ppm) + ",";
-      payload += "\"dust_density\":" + String(dustDensity);
-      payload += "}";
-
-      http.addHeader("Content-Type", "application/json");
-
-      int httpResponseCode = http.POST(payload);
-      Serial.print("HTTP Response code: ");
-      Serial.println(httpResponseCode);
-    }
-
+    int httpResponseCode = http.POST(jsonData);  // Send JSON data in POST request
     http.end();
+    return httpResponseCode > 0;  // Return true if the response is positive
+  } else {
+    Serial.println("WiFi not connected.");
+    return false;
   }
-
-  delay(5000); // Adjust delay as needed
-}
-
-
-void loop() {
-  
 }
