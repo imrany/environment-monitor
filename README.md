@@ -3,7 +3,11 @@
 - Replace `your_wifi_ssid` and `your_wifi_password` with your WiFi credentials.
 - Set the `<your-server-url>` variable to your server endpoint where data will be received.
 
-#### Server
+#### The Server 
+The server-side code was built with `python` using `flask`.
+
+It has a single post route `/api/sensor_data` that insert the sensory data received from the `EPS32` to `MySQL database`, which your will create on your `MySQL Server`. Use `sensor_data_db` for the database name.
+
 - Config your `MySql server` on your machine and enter it connection credentials in `./server/app.py`
 - Then run server by running
   
