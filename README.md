@@ -7,7 +7,7 @@ To insert data from your Arduino to the MySQL database, you can set up an ESP32 
 - Set the `<your-server-url>` variable to your server endpoint where data will be received.
 
 #### The Server 
-The server-side code was built with `python` using `flask`.
+The server-side code was built with `python` using `flask`. Ensure you've installed `Python version 3.x.x or above`
 
 It has a single post route `/api/sensor_data` that insert the sensory data received from the `EPS32 (Wi-Fi-capable microcontroller)` to `MySQL database`, which your will create on your `MySQL Server`. Use `sensor_data_db` for the database name.
 
