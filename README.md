@@ -2,6 +2,15 @@
 To insert data from your Arduino to the MySQL database, you can set up an ESP32 (or similar Wi-Fi-capable microcontroller) to act as a bridge between the Arduino and the MySQL server. This setup enables the ESP32 to receive sensor data from the Arduino, format it into SQL commands, and send those commands to the MySQL database via an HTTP request to a server-side script, like flask, which then interacts with the database.
 
 
+#### Requirements
+You need 
+- Arduino IDE [download here](https://www.arduino.cc/en/software)
+- Python, [download here](https://www.python.org/downloads/)
+Clone this project and open the two folders contain the sketch in Arduino IDE
+  Upload `comp_DustSensor_Sensordata.ino` to an `Arduino UNO`
+  Upload `EPS32_Send_Sensory_Data_to_Server.ino` to `Arduino Nano EPS32`
+On another laptop run the `Server` folder
+
 #### WiFi Configuration on ESP32: 
 - Replace `your_wifi_ssid` and `your_wifi_password` with your WiFi credentials.
 - Set the `<your-server-url>` variable to your server endpoint where data will be received.
@@ -30,3 +39,4 @@ Arduino get the sensory data,
 the ESP32 reads data sent from the Arduino, then forwards it to the server using an HTTP POST request where it is stored in a `MySQL Database`.
 
 Note: This setup allows the MCU to read sensor data, send it to the ESP32 over Serial, and finally, the ESP32 forwards it to a server  where it is stored in a `MySQL Database`.
+Read more here [https://arduinogetstarted.com/tutorials/arduino-temperature-humidity-sensor](https://arduinogetstarted.com/tutorials/arduino-temperature-humidity-sensor)
