@@ -6,10 +6,16 @@ To insert data from your Arduino to the MySQL database, you can set up an ESP32 
 You need 
 - Arduino IDE [download here](https://www.arduino.cc/en/software)
 - Python, [download here](https://www.python.org/downloads/)
+
+  
 Clone this project and open the two folders contain the sketch in Arduino IDE
-  Upload `comp_DustSensor_Sensordata.ino` to an `Arduino UNO`
-  Upload `EPS32_Send_Sensory_Data_to_Server.ino` to `Arduino Nano EPS32` [read more about Arduino Nano EPS32 here](https://docs.arduino.cc/hardware/nano-esp32/)
+
+Upload `comp_DustSensor_Sensordata.ino` to an `Arduino UNO`
+
+Upload `EPS32_Send_Sensory_Data_to_Server.ino` to `Arduino Nano EPS32` [read more about Arduino Nano EPS32 here](https://docs.arduino.cc/hardware/nano-esp32/)
+
 if you don't know how to upload a sketch to an Arduino board, check more here [https://wiki-content.arduino.cc/en/Guide/ArduinoUno](https://wiki-content.arduino.cc/en/Guide/ArduinoUno)
+
 On another laptop run the `Server` folder
 
 #### WiFi Configuration on ESP32: 
