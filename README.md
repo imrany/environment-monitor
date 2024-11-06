@@ -8,7 +8,8 @@ You need
 - Python, [download here](https://www.python.org/downloads/)
 Clone this project and open the two folders contain the sketch in Arduino IDE
   Upload `comp_DustSensor_Sensordata.ino` to an `Arduino UNO`
-  Upload `EPS32_Send_Sensory_Data_to_Server.ino` to `Arduino Nano EPS32`
+  Upload `EPS32_Send_Sensory_Data_to_Server.ino` to `Arduino Nano EPS32` [read more about Arduino Nano EPS32 here](https://docs.arduino.cc/hardware/nano-esp32/)
+if you don't know how to upload a sketch to an Arduino board, check more here [https://wiki-content.arduino.cc/en/Guide/ArduinoUno](https://wiki-content.arduino.cc/en/Guide/ArduinoUno)
 On another laptop run the `Server` folder
 
 #### WiFi Configuration on ESP32: 
