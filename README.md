@@ -16,6 +16,8 @@ Upload `EPS32_Send_Sensory_Data_to_Server.ino` to `Arduino Nano EPS32` [read mor
 
 if you don't know how to upload a sketch to an Arduino board, check more here [https://wiki-content.arduino.cc/en/Guide/ArduinoUno](https://wiki-content.arduino.cc/en/Guide/ArduinoUno)
 
+After uploading the sketch to the two board, you connect them. [connect Arduino UNO to Arduino Nano esp32](https://youtu.be/_A2KwuiE7Ww)
+
 On another laptop run the `Server` folder
 
 #### WiFi Configuration on ESP32: 
