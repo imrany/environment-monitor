@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block pagetitle %}
+    Sensory data
+{% endblock pagetitle %}
+
+{% block body %}
+    <div>
+        {% if sensory_data %}
+            <table>
+                <thead>
+                    <tr>
+                        <!-- <th>ID</th> -->
+                        <th>Timestamp</th>
+                        <th>Temperature</th>
+                        <th>Humidity</th>
+                        <th>Heat Index</th>
+                        <th>Noise</th>
+                        <th>CO2</th>
+                        <th>Methane</th>
+                        <th>SO2</th>
+                        <th>Dust</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index in range(0,sensory_data | length) %}
+                        <tr>
+                            <!-- <td>{{sensory_data[index].id}}</td> -->
+                            <td>{{sensory_data[index].timestamp}}</td>
+                            <td>{{sensory_data[index].temperature}}</td>
+                            <td>{{sensory_data[index].humidity}}</td>
+                            <td>{{sensory_data[index].heat_index}}</td>
+                            <td>{{sensory_data[index].noise}}</td>
+                            <td>{{sensory_data[index].methane}}</td>
+                            <td>{{sensory_data[index].CO2}}</td>
+                            <td>{{sensory_data[index].SO2}}</td>
+                            <td>{{sensory_data[index].dust}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No available sensory data</p>
+        {% endif %}
+    </div>
+{% endblock body %}
