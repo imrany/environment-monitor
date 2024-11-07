@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS sensor_data (
     noise TEXT,
     CO2 TEXT,
     methane TEXT,
-    SO2 TEXT,
+    NO2 TEXT,
     dust TEXT
 )
 ''')
@@ -36,6 +36,34 @@ db_connection.commit()
 # Template routes
 @app.route('/',methods=['GET'])
 def index_page():
+    return render_template('index.html')
+
+@app.route('/register',methods=['GET'])
+def register_page():
+    return render_template('register.html')
+
+@app.route('/login',methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
+@app.route('/contact',methods=['GET'])
+def contact_page():
+    return render_template('contact.html')
+
+@app.route('/userprofile',methods=['GET'])
+def userprofile_page():
+    return render_template('userprofile.html')
+
+# @app.route('/monitoringmaps',methods=['GET'])
+# def monitoringmaps_page():
+#     return render_template('index.html')
+
+@app.errorhandler(404) 
+def page_not_found(e): 
+    return render_template('404.html', error=e), 404
+
+@app.route('/data',methods=['GET'])
+def data_page():
     # Prepare SQL query for retrieving data
     query = 'SELECT * FROM sensor_data ORDER BY timestamp DESC'
     cursor.execute(query)
@@ -52,10 +80,10 @@ def index_page():
             "noise": row[5],
             "CO2": row[6], # mq2_ppm
             "methane": row[7], # mq2_ppm
-            "SO2": row[8], # mq135_ppm
+            "NO2": row[8], # mq135_ppm
             "dust": row[9] # dustDensityStr
         })
-    return render_template('index.html',sensory_data=sensory_data)
+    return render_template('data.html',sensory_data=sensory_data)
 
 # Endpoint to receive data
 @app.route('/api/sensor_data', methods=['POST'])
@@ -65,7 +93,7 @@ def receive_sensor_data():
 
     # Prepare SQL query
     query = '''
-    INSERT INTO sensor_data (timestamp, temperature, humidity, heat_index, noise, CO2, methane, SO2, dust)
+    INSERT INTO sensor_data (timestamp, temperature, humidity, heat_index, noise, CO2, methane, NO2, dust)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     '''
     values = (
